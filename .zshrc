@@ -230,25 +230,58 @@ case $TERM in
 esac
 
 # Alias.
+alias editconfig="${EDITOR} ${HOME}/.zshrc"
+alias loadconfig="source ${HOME}/.zshrc"
+
 alias l="ls -alh --color"
 alias la="ls -a --color"
 alias ll="ls -l --color"
-alias zshconfig="${EDITOR} ${HOME}/.zshrc"
-alias oh-my-zsh="source ${HOME}/.zshrc"
+
 alias ee="emacsclient -c -a \"\""
 alias ec="emacsclient -nw -c -a \"\""
+
+alias xsync="rsync -aviHAXKhPS --delete --exclude='*~' --exclude=__pycache__"
+
+# Alynx likes to use `Ctrl-l` to clear screen, so this is an egg.
+alias clear="echo NO!"
+
 alias gcc11="gcc -std=c11"
 alias clang11="clang11 -std=c11"
-alias disabletouch="sudo modprobe -r usbhid"
-alias enabletouch="sudo modprobe usbhid"
+
 # Alynx uses neovim.
 alias vi="nvim"
+
 # This is used for openbox with nvidia-xrun.
 # Enable external monitor only.
 alias extmon="xrandr --output 'DP-1-1' --mode '1920x1080' --rate '144.00' --output 'eDP-1-1' --off"
-alias xsync="rsync -aviHAXKhPS --delete --exclude='*~' --exclude=__pycache__"
-# Alynx likes to use `Ctrl-l` to clear screen, so this is an egg.
-alias clear="echo NO!"
+alias enabletouch="sudo modprobe usbhid"
+alias disabletouch="sudo modprobe -r usbhid"
+
+# Pacman alias.
+if [[ -f "/usr/bin/pacman" ]]; then
+	alias spacs="sudo pacman -S"
+	alias spacr="sudo pacman -Rns"
+	alias spacu="sudo pacman -U"
+	alias pacfs="pacman -F"
+	alias pacss="pacman -Ss"
+	alias spacsyu="sudo pacman -Syyu"
+	alias spacsyy="sudo pacman -Syy"
+fi
+
+# Systemd alias.
+if [[ -f "/usr/bin/systemctl" ]]; then
+	# Let the pager away.
+	alias systemctl="systemctl --no-pager -l"
+	alias ssctlen="sudo systemctl enable"
+	alias ssctlnowen="sudo systemctl --now enable"
+	alias ssctldis="sudo systemctl disable"
+	alias ssctlnowdis="sudo systemctl --now disable"
+	alias ssctlstart="sudo systemctl start"
+	alias sctlstatus="systemctl status"
+	alias ssctlstatus="sudo systemctl status"
+	alias ssctlstop="sudo systemctl stop"
+	alias ssctlre="sudo systemctl restart"
+fi
 
 # Syntax highlight.
 if [[ -f "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
