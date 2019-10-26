@@ -272,15 +272,20 @@ fi
 if [[ -f "/usr/bin/systemctl" ]]; then
 	# Let the pager away.
 	alias systemctl="systemctl --no-pager -l"
-	alias ssctlen="sudo systemctl enable"
-	alias ssctlnowen="sudo systemctl --now enable"
-	alias ssctldis="sudo systemctl disable"
-	alias ssctlnowdis="sudo systemctl --now disable"
-	alias ssctlstart="sudo systemctl start"
-	alias sctlstatus="systemctl status"
-	alias ssctlstatus="sudo systemctl status"
-	alias ssctlstop="sudo systemctl stop"
-	alias ssctlre="sudo systemctl restart"
+	alias journalctl="journalctl --no-pager -l"
+	alias ssctlen="sudo systemctl --no-pager -l enable"
+	alias ssctlnowen="sudo systemctl --no-pager -l --now enable"
+	alias ssctldis="sudo systemctl --no-pager -l disable"
+	alias ssctlnowdis="sudo systemctl --no-pager -l --now disable"
+	alias ssctlstart="sudo systemctl --no-pager -l start"
+	alias sctlstatus="systemctl --no-pager -l status"
+	alias ssctlstatus="sudo systemctl --no-pager -l status"
+	alias ssctlstop="sudo systemctl --no-pager -l stop"
+	alias ssctlre="sudo systemctl --no-pager -l restart"
+	alias jctlb0="journalctl --no-pager -l -b 0"
+	alias sjctlb0="sudo journalctl --no-pager -l -b 0"
+	alias jctlb1="journalctl --no-pager -l -b -1"
+	alias sjctlb1="journalctl --no-pager -l -b -1"
 fi
 
 # Syntax highlight.
