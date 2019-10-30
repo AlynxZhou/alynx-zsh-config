@@ -239,23 +239,12 @@ alias ll="ls -l --color"
 
 alias ee="emacsclient -c -a \"\""
 alias ec="emacsclient -nw -c -a \"\""
+alias vi="vim"
 
 alias xsync="rsync -aviHAXKhPS --delete --exclude='*~' --exclude=__pycache__"
 
-# Alynx likes to use `Ctrl-l` to clear screen, so this is an egg.
-alias clear="echo NO!"
-
 alias gcc11="gcc -std=c11"
 alias clang11="clang11 -std=c11"
-
-# Alynx uses neovim.
-alias vi="nvim"
-
-# This is used for openbox with nvidia-xrun.
-# Enable external monitor only.
-alias extmon="xrandr --output 'DP-1-1' --mode '1920x1080' --rate '144.00' --output 'eDP-1-1' --off"
-alias enabletouch="sudo modprobe usbhid"
-alias disabletouch="sudo modprobe -r usbhid"
 
 # Pacman alias.
 if [[ -f "/usr/bin/pacman" ]]; then
