@@ -244,7 +244,7 @@ alias vi="vim"
 alias xsync="rsync -aviHAXKhPS --delete --exclude='*~' --exclude=__pycache__"
 
 alias gcc11="gcc -std=c11"
-alias clang11="clang11 -std=c11"
+alias clang11="clang -std=c11"
 
 # Pacman alias.
 if [[ -f "/usr/bin/pacman" ]]; then
