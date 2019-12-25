@@ -241,7 +241,7 @@ alias ee="emacsclient -c -a \"\""
 alias ec="emacsclient -nw -c -a \"\""
 alias vi="vim"
 
-alias xsync="rsync -aviHAXKhPS --delete --exclude='*~' --exclude=__pycache__"
+alias xsync="rsync -avihHAXKPS --delete"
 
 alias gcc11="gcc -std=c11"
 alias clang11="clang -std=c11"
