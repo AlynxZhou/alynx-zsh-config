@@ -233,21 +233,36 @@ esac
 alias editconfig="${EDITOR} ${HOME}/.zshrc"
 alias loadconfig="source ${HOME}/.zshrc"
 
-alias l="ls -alh --color"
-alias la="ls -a --color"
-alias ll="ls -l --color"
+if [[ -f "/bin/ls" ]]; then
+	alias l="ls -l --all --human-readable --group-directories-first --color=auto"
+fi
+if [[ -f "/bin/exa" ]]; then
+	alias e="exa --all --long --header --git --group-directories-first --color=auto"
+fi
 
-alias ee="emacsclient -c -a \"\""
-alias ec="emacsclient -nw -c -a \"\""
-alias vi="vim"
+if [[ -f "/bin/vim" ]]; then
+	alias vi="vim"
+elif [[ -f "/bin/nvim" ]]; then
+	alias vi="nvim"
+fi
+if [[ -f "/bin/emacsclient" ]]; then
+	alias eg="emacsclient -c -a \"\""
+	alias ec="emacsclient -nw -c -a \"\""
+fi
 
-alias xsync="rsync -avihHAXKPS --delete"
+if [[ -f "/bin/rsync" ]]; then
+	alias xsync="rsync -avihHAXKPS --delete"
+fi
 
-alias gcc11="gcc -std=c11"
-alias clang11="clang -std=c11"
+if [[ -f "/bin/gcc" ]]; then
+	alias gcc11="gcc -std=c11"
+fi
+if [[ -f "/bin/clang" ]]; then
+	alias clang11="clang -std=c11"
+fi
 
 # Pacman alias.
-if [[ -f "/usr/bin/pacman" ]]; then
+if [[ -f "/bin/pacman" ]]; then
 	alias spacs="sudo pacman -S"
 	alias spacr="sudo pacman -Rns"
 	alias spacu="sudo pacman -U"
@@ -258,7 +273,7 @@ if [[ -f "/usr/bin/pacman" ]]; then
 fi
 
 # Systemd alias.
-if [[ -f "/usr/bin/systemctl" ]]; then
+if [[ -f "/bin/systemctl" ]]; then
 	# Let the pager away.
 	alias systemctl="systemctl --no-pager -l"
 	alias journalctl="journalctl --no-pager -l"
