@@ -240,6 +240,11 @@ if [[ -f "/bin/exa" ]]; then
 	alias e="exa --all --long --header --git --group-directories-first --color=auto"
 fi
 
+# bat display tab as 4 spaces by default, which is bad because it's a viewer instead of editor.
+if [[ -f "/bin/bat" ]]; then
+	alias bat="bat --tabs=0"
+fi
+
 if [[ -f "/bin/vim" ]]; then
 	alias vi="vim"
 elif [[ -f "/bin/nvim" ]]; then
