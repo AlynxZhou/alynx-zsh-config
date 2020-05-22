@@ -210,7 +210,7 @@ case $TERM in
 	termite|*xterm*|rxvt|rxvt-unicode|rxvt-256color|rxvt-unicode-256color|(dt|k|E)term)
 		function precmd() {
 			# vcs_info
-			print -Pn "\e]0;%n@%M:%~\a"
+			print -Pn "\e]0;%n@%M:%3~\a"
 		}
 		function preexec() {
 			print -Pn "\e]0;${1}\a"
@@ -220,11 +220,11 @@ case $TERM in
 		function precmd() {
 			# vcs_info
 			print -Pn "\e]83;title \"${1}\"\a"
-			print -Pn "\e]0;$TERM - (%L) %n@%M:%~\a"
+			print -Pn "\e]0;$TERM - (%L) %n@%M:%3~\a"
 		}
 		function preexec() {
 			print -Pn "\e]83;title \"${1}\"\a"
-			print -Pn "\e]0;$TERM - (%L) %n@%M:%~\a"
+			print -Pn "\e]0;$TERM - (%L) %n@%M:%3~\a"
 		}
 	;;
 esac
