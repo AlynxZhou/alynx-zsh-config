@@ -32,10 +32,6 @@ History is stored in `.zhistory`, and it will not load files like `.bash_profile
 
 Load sequence:
 	
-### `.profile`
-
-Environment variable that will be used by all shell.
-
 ### `.zprofile`
 
 Environment variable that will be used by zsh only (Alynx does not use this in fact).
@@ -47,6 +43,12 @@ Main configuration file.
 ### `.zcustom`
 
 This will be load at last and you can put your own configuration here, for example, if your autosuggestion puts in another dir you can execute it here.
+
+## About `.profile`
+
+This file is dropped as well as `.pam_environment`, you are not supposed to load environment variables with your shell, because there are other programs run before your shell, for example a Desktop Environment in Wayland session which does not depend on shell scripts.
+
+Alynx suggests you to use systemd to load your user environment variables, just create a `.conf` file under `~/.config/environment.d/` and fill it with `KEY=VALUE`. This supports both Xorg and Wayland sessions.
 
 # License
 

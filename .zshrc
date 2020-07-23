@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-# Alynx Zhou <alynx.zhou@gmail.com> (https://alynx.moe/)
+# Alynx Zhou <alynx.zhou@gmail.com> (https://alynx.one/)
 
 # Note: If you use `~` in a string, it won't be treated as `${HOME}`, so use `${HOME}` in strings directly.
 
@@ -10,10 +10,7 @@ if [[ -f  "/etc/profile.d/vte.sh" ]]; then
 	source /etc/profile.d/vte.sh
 fi
 
-# Load environment varibles in profiles.
-if [[ -f "${HOME}/.profile" ]]; then
-	source ${HOME}/.profile
-fi
+# Load zsh profile.
 if [[ -f "${HOME}/.zprofile" ]]; then
 	source ${HOME}/.zprofile
 fi
@@ -93,7 +90,7 @@ setopt auto_menu
 # setopt menu_complete
 
 # Color.
-# Set it as profile environment variables.
+# Set it as environment variables.
 export ZLSCOLORS=${LS_COLORS}
 autoload -U colors && colors
 
