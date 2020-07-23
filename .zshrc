@@ -62,32 +62,52 @@ setopt correct
 setopt append_history
 setopt share_history
 # Only keep one record for continuous same record.
+setopt hist_save_no_dups
 setopt hist_ignore_dups
+# Ignore record starting with space.
+setopt hist_ignore_space
 # Add timestamp for history.
 setopt extended_history
 # Use `cd -TAB` to enter history path.
 setopt auto_pushd
+# Enter directory without `cd`.
+setopt autocd
 # Only keep one record for continuous same history path.
 setopt pushd_ignore_dups
-# Ignore record starting with space.
-setopt hist_ignore_space
+# Support `cd -NUM`.
+setopt pushd_minus
 # Use enhanced glob.
 setopt extended_glob
 # Don't change priority for background commands.
 setopt no_bg_nice
+# Pass `*` to program when no file matches it.
+setopt no_nomatch
 # Disable beep.
 unsetopt beep
-# Complete full path by alpha.
-# /v/c/p/p => /var/cache/pacman/pkg
+# Complete full path by alpha. `/v/c/p/p` => `/var/cache/pacman/pkg`.
 setopt complete_in_word
+# Complete parameter like `identifier=path`.
+setopt magic_equal_subst
 # Allow to use functions in prompt.
 setopt prompt_subst
+# Allow comments in interactive mode.
+setopt interactive_comments
 # Treat them as a part of word.
 WORDCHARS="*?_-[]~=&;!#$%^(){}<>"
 setopt auto_list
 setopt auto_menu
 # Disable selecting menu item while completing.
 # setopt menu_complete
+# Allow different column weight.
+setopt listpacked
+# Continue job after disown.
+setopt auto_continue
+# Treat `#`, `~` and `^` characters as patterns for filename generation.
+setopt extended_glob
+# Only display newest RPROMPT, which makes copy easier.
+setopt transient_rprompt
+# Display all options with status when call `setopt`.
+setopt ksh_option_print
 
 # Color.
 # Set it as environment variables.
@@ -151,9 +171,9 @@ local result_status=%(?::":%F{red}%?%f")
 # OS detection.
 function os_status() {
 	if [[ -n ${SSH_CONNECTION} ]]; then
-		print -n "(ssh)$(command uname)"
+		print -n "%F{blue}(ssh)%f%F{yellow}$(command uname)%f:"
 	else
-		print -n "$(command uname)"
+		print -n "%F{yellow}$(command uname)%f:"
 	fi
 	return 0
 }
@@ -162,10 +182,11 @@ function os_status() {
 # Warning: For the prompt will only refresh by pressing <ENTER>, the battery showing maybe not right.
 function battery_status() {
 	if [[ -f "/sys/class/power_supply/BAT0/capacity" ]]; then
-		print -n "$(command cat /sys/class/power_supply/BAT0/capacity 2> /dev/null)"
-		return 0
+		local BATTERY=$(command cat /sys/class/power_supply/BAT0/capacity 2> /dev/null)
+		print -n "%F{green}${BATTERY}%%%f:"
+		return ${BATTERY}
 	fi
-	return -1
+	return 0
 }
 
 # Git status.
@@ -196,10 +217,10 @@ function jobs_status() {
 
 # Prompt.
 # Alynx prefers to use only left prompt.
-# Here is the LEFT PROMPT containing username `%n`, hostname `%m`, directory `%~`, git info `$(git_status)`, jobs `$(jobs_status)`, result status `${result_status}` and the `%#`.
+# Here is the LEFT PROMPT containing username `%n`, hostname `%m`, directory `%3~`, git `$(git_status)`, jobs `$(jobs_status)`, result `${result_status}` and the `%#`.
 PROMPT='[%F{red}%n%f@%F{cyan}%m%f:%F{yellow}%3~%f$(git_status)$(jobs_status)${result_status}] %# '
-# Here is the RIGHT PROMPT containing battery `$(battery_status)`, os `$(os_status)`, jobs `$(jobs_status)`, time `%D{%H:%M:%S}` and date `%D{%Y-%m-%d}`.
-# RPROMPT='%F{244}%f%K{244}%F{235}$(battery_status)%k%K{244}%f%F{254}%f%F{235}$(os_status)$(jobs_status)%f%F{246}%f%k%K{246}%F{235}%D{%H:%M:%S}%f%F{254}%f%F{235}%D{%Y-%m-%d}%f%F{236}%f%k'
+# Here is the RIGHT PROMPT containing battery `$(battery_status)`, os `$(os_status)`, date `%D{%Y-%m-%d}` and time `%D{%H:%M:%S}`.
+RPROMPT='[$(battery_status)$(os_status)%F{cyan}%D{%Y-%m-%d} %D{%H:%M:%S}%f]'
 
 # Terminal title.
 # Because terminal don't know what `%n@%m:%~` is, we need to use `print -P`, it will parse them then pass result to title.
