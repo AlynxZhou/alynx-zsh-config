@@ -225,7 +225,7 @@ RPROMPT='[$(battery_status)$(os_status)%F{cyan}%D{%Y-%m-%d} %D{%H:%M:%S}%f]'
 # Terminal title.
 # Because terminal don't know what `%n@%m:%~` is, we need to use `print -P`, it will parse them then pass result to title.
 case $TERM in
-	termite|*xterm*|rxvt|rxvt-unicode|rxvt-256color|rxvt-unicode-256color|(dt|k|E)term)
+	xterm*|rxvt*|(dt|k|E)term|termite|gnome*|alacritty)
 		function precmd() {
 			# vcs_info
 			print -Pn "\e]0;%n@%M:%3~\a"
@@ -234,7 +234,7 @@ case $TERM in
 			print -Pn "\e]0;${1}\a"
 		}
 	;;
-	screen|screen-256color)
+	screen*)
 		function precmd() {
 			# vcs_info
 			print -Pn "\e]83;title \"${1}\"\a"
