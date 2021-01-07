@@ -217,8 +217,8 @@ function jobs_status() {
 
 # Prompt.
 # Alynx prefers to use only left prompt.
-# Here is the LEFT PROMPT containing username `%n`, hostname `%m`, directory `%3~`, git `$(git_status)`, jobs `$(jobs_status)`, result `${result_status}` and the `%#`.
-PROMPT='[%F{red}%n%f@%F{cyan}%m%f:%F{yellow}%3~%f$(git_status)$(jobs_status)${result_status}] %# '
+# Here is the LEFT PROMPT containing username `%n`, hostname `%m`, directory `%~`, git `$(git_status)`, jobs `$(jobs_status)`, result `${result_status}` and the `%#`.
+PROMPT='[%F{red}%n%f@%F{cyan}%m%f:%F{yellow}%~%f$(git_status)$(jobs_status)${result_status}] %# '
 # Here is the RIGHT PROMPT containing battery `$(battery_status)`, os `$(os_status)`, date `%D{%Y-%m-%d}` and time `%D{%H:%M:%S}`.
 RPROMPT='[$(battery_status)$(os_status)%F{cyan}%D{%Y-%m-%d} %D{%H:%M:%S}%f]'
 
@@ -228,7 +228,7 @@ case $TERM in
 	xterm*|rxvt*|(dt|k|E)term|termite|gnome*|alacritty)
 		function precmd() {
 			# vcs_info
-			print -Pn "\e]0;%n@%M:%3~\a"
+			print -Pn "\e]0;%n@%M:%~\a"
 		}
 		function preexec() {
 			print -Pn "\e]0;${1}\a"
@@ -238,11 +238,11 @@ case $TERM in
 		function precmd() {
 			# vcs_info
 			print -Pn "\e]83;title \"${1}\"\a"
-			print -Pn "\e]0;$TERM - (%L) %n@%M:%3~\a"
+			print -Pn "\e]0;$TERM - (%L) %n@%M:%~\a"
 		}
 		function preexec() {
 			print -Pn "\e]83;title \"${1}\"\a"
-			print -Pn "\e]0;$TERM - (%L) %n@%M:%3~\a"
+			print -Pn "\e]0;$TERM - (%L) %n@%M:%~\a"
 		}
 	;;
 esac
