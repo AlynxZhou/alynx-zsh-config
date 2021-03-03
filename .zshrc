@@ -284,6 +284,13 @@ if [[ -f "/bin/clang" ]]; then
 	alias clang11="clang -std=c11"
 fi
 
+if [[ -f "/bin/diff" ]]; then
+	alias diffu="diff --unified --recursive --text --color"
+fi
+if [[ -f "/bin/patch" ]]; then
+	alias patchp="patch --no-backup-if-mismatch --strip=1"
+fi
+
 # Pacman alias.
 if [[ -f "/bin/pacman" ]]; then
 	alias spacs="sudo pacman -S"
@@ -328,4 +335,3 @@ fi
 if [[ -f "${HOME}/.zcustom" ]]; then
 	source ${HOME}/.zcustom
 fi
-
