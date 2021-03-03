@@ -285,10 +285,11 @@ if [[ -f "/bin/clang" ]]; then
 fi
 
 if [[ -f "/bin/diff" ]]; then
-	alias diffu="diff --unified --recursive --text --color"
+	alias diffu="diff --unified --recursive --text --new-file --color"
 fi
+# Use `-i` here so we can append patch file name directly.
 if [[ -f "/bin/patch" ]]; then
-	alias patchp="patch --no-backup-if-mismatch --strip=1"
+	alias patchp="patch --no-backup-if-mismatch --forward --strip=1 -i"
 fi
 
 # Pacman alias.
@@ -305,21 +306,21 @@ fi
 # Systemd alias.
 if [[ -f "/bin/systemctl" ]]; then
 	# Let the pager away.
-	alias systemctl="systemctl --no-pager -l"
-	alias journalctl="journalctl --no-pager -l"
-	alias ssctlen="sudo systemctl --no-pager -l enable"
-	alias ssctlnowen="sudo systemctl --no-pager -l --now enable"
-	alias ssctldis="sudo systemctl --no-pager -l disable"
-	alias ssctlnowdis="sudo systemctl --no-pager -l --now disable"
-	alias ssctlstart="sudo systemctl --no-pager -l start"
-	alias sctlstatus="systemctl --no-pager -l status"
-	alias ssctlstatus="sudo systemctl --no-pager -l status"
-	alias ssctlstop="sudo systemctl --no-pager -l stop"
-	alias ssctlre="sudo systemctl --no-pager -l restart"
-	alias jctlb0="journalctl --no-pager -l -b 0"
-	alias sjctlb0="sudo journalctl --no-pager -l -b 0"
-	alias jctlb1="journalctl --no-pager -l -b -1"
-	alias sjctlb1="journalctl --no-pager -l -b -1"
+	alias systemctl="systemctl --no-pager --full"
+	alias journalctl="journalctl --no-pager --full"
+	alias ssctlen="sudo systemctl --no-pager --full enable"
+	alias ssctlnowen="sudo systemctl --no-pager --full --now enable"
+	alias ssctldis="sudo systemctl --no-pager --full disable"
+	alias ssctlnowdis="sudo systemctl --no-pager --full --now disable"
+	alias ssctlstart="sudo systemctl --no-pager --full start"
+	alias sctlstatus="systemctl --no-pager --full status"
+	alias ssctlstatus="sudo systemctl --no-pager --full status"
+	alias ssctlstop="sudo systemctl --no-pager --full stop"
+	alias ssctlre="sudo systemctl --no-pager --full restart"
+	alias jctlb0="journalctl --no-pager --full --boot=0"
+	alias sjctlb0="sudo journalctl --no-pager --full --boot=0"
+	alias jctlb1="journalctl --no-pager --full --boot=-1"
+	alias sjctlb1="journalctl --no-pager --full --boot=-1"
 fi
 
 # Syntax highlight.
