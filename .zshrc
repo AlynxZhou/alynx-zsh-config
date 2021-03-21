@@ -292,6 +292,11 @@ if [[ -f "/bin/patch" ]]; then
 	alias patchp="patch --no-backup-if-mismatch --forward --strip=1 -i"
 fi
 
+# A beautiful git log.
+if [[ -f "/bin/git" ]]; then
+	git config --global alias.graph "log --graph --abbrev-commit --decorate --date=iso8601 --format=format:'%C(bold blue)%h%C(reset) %C(white)%s%C(reset) %C(dim white)<%ae>%C(reset) %C(bold green)(%ad)%C(reset) %C(auto)%d%C(reset)'"
+fi
+
 # Pacman alias.
 if [[ -f "/bin/pacman" ]]; then
 	alias spacs="sudo pacman -S"
