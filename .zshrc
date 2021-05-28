@@ -12,7 +12,7 @@ fi
 
 # Load zsh profile.
 if [[ -f "${HOME}/.zprofile" ]]; then
-	source ${HOME}/.zprofile
+	source "${HOME}/.zprofile"
 fi
 
 # Keymap.
@@ -39,15 +39,22 @@ bindkey "\eOF" end-of-line
 # `PageUp` / `PageDown`.
 bindkey "\e[5~" up-line-or-history
 bindkey "\e[6~" down-line-or-history
-# Alynx wants to add sudo via hit `Esc` twice.
+# Alynx wants to add `sudo` via hit `Esc` twice.
 function add_sudo() {
 	[[ -z ${BUFFER} ]] && zle up-history
-	[[ ${BUFFER} != sudo\ * ]] && BUFFER="sudo ${BUFFER}"
-	# Move to end of line.
+	[[ ${BUFFER} != "sudo "* ]] && BUFFER="sudo ${BUFFER}"
 	zle end-of-line
 }
 zle -N add_sudo
 bindkey "\e\e" add_sudo
+# Alynx wants to add `proxychains` via hit `Esc` three times.
+function add_proxychains() {
+	[[ -z ${BUFFER} ]] && zle up-history
+	[[ ${BUFFER} != "proxychains "* ]] && BUFFER="proxychains ${BUFFER}"
+	zle end-of-line
+}
+zle -N add_proxychains
+bindkey "\e\e\e" add_proxychains
 
 # Alynx likes to set history file name to `~/.zhistory`.
 HISTFILE="${HOME}/.zhistory"
@@ -248,7 +255,11 @@ case $TERM in
 esac
 
 # Alias.
-alias editconfig="${EDITOR} ${HOME}/.zshrc"
+if [[ -z ${VISUAL} ]]; then
+	alias editconfig="${EDITOR} ${HOME}/.zshrc"
+else
+	alias editconfig="${VISUAL} ${HOME}/.zshrc"
+fi
 alias loadconfig="source ${HOME}/.zshrc"
 
 if [[ -f "/bin/ls" ]]; then
@@ -299,13 +310,18 @@ fi
 
 # Pacman alias.
 if [[ -f "/bin/pacman" ]]; then
-	alias spacs="sudo pacman -S"
-	alias spacr="sudo pacman -Rns"
-	alias spacu="sudo pacman -U"
-	alias pacfs="pacman -F"
-	alias pacss="pacman -Ss"
-	alias spacsyu="sudo pacman -Syyu"
-	alias spacsyy="sudo pacman -Syy"
+	alias pmsync="pacman --sync"
+	alias pmremove="pacman --remove"
+	alias pmquery="pacman --query"
+	alias pmfiles="pacman --files"
+	alias pmup="pacman --upgrade"
+	alias pmdata="pacman --database"
+	alias pmtest="pacman --deptest"
+	alias pmrns="pacman -Rns"
+	alias spmrns="sudo pacman -Rns"
+	alias pmsyu="pacman -Syyu"
+	alias spmsyu="sudo pacman -Syyu"
+	alias pmss="pacman -Ss"
 fi
 
 # Systemd alias.
@@ -313,19 +329,26 @@ if [[ -f "/bin/systemctl" ]]; then
 	# Let the pager away.
 	alias systemctl="systemctl --no-pager --full"
 	alias journalctl="journalctl --no-pager --full"
-	alias ssctlen="sudo systemctl --no-pager --full enable"
-	alias ssctlnowen="sudo systemctl --no-pager --full --now enable"
-	alias ssctldis="sudo systemctl --no-pager --full disable"
-	alias ssctlnowdis="sudo systemctl --no-pager --full --now disable"
-	alias ssctlstart="sudo systemctl --no-pager --full start"
-	alias sctlstatus="systemctl --no-pager --full status"
-	alias ssctlstatus="sudo systemctl --no-pager --full status"
-	alias ssctlstop="sudo systemctl --no-pager --full stop"
-	alias ssctlre="sudo systemctl --no-pager --full restart"
-	alias jctlb0="journalctl --no-pager --full --boot=0"
-	alias sjctlb0="sudo journalctl --no-pager --full --boot=0"
-	alias jctlb1="journalctl --no-pager --full --boot=-1"
-	alias sjctlb1="journalctl --no-pager --full --boot=-1"
+	alias sdenable="systemctl enable"
+	alias ssdenable="sudo systemctl enable"
+	alias sdenablenow="systemctl --now enable"
+	alias ssdenablenow="sudo systemctl --now enable"
+	alias sddisable="systemctl disable"
+	alias ssddisable="sudo systemctl disable"
+	alias sddisablenow="systemctl --now disable"
+	alias ssddisablenow="sudo systemctl --now disable"
+	alias sdstart="systemctl start"
+	alias ssdstart="sudo systemctl start"
+	alias sdstatus="systemctl --no-pager --full status"
+	alias ssdstatus="sudo systemctl --no-pager --full status"
+	alias sdstop="systemctl stop"
+	alias ssdstop="sudo systemctl stop"
+	alias sdedit="systemctl edit"
+	alias ssdedit="sudo systemctl edit"
+	alias jdb0="journalctl --no-pager --full --boot=0"
+	alias sjdb0="sudo journalctl --no-pager --full --boot=0"
+	alias jdb1="journalctl --no-pager --full --boot=-1"
+	alias sjdb1="journalctl --no-pager --full --boot=-1"
 fi
 
 # Syntax highlight.
@@ -339,5 +362,5 @@ fi
 
 # Load per-machine custom config.
 if [[ -f "${HOME}/.zcustom" ]]; then
-	source ${HOME}/.zcustom
+	source "${HOME}/.zcustom"
 fi
