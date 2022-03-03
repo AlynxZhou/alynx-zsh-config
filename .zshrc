@@ -266,7 +266,7 @@ if [[ -f "/bin/ls" ]]; then
 	alias l="ls -l --all --human-readable --group-directories-first --color=auto"
 fi
 if [[ -f "/bin/exa" ]]; then
-	alias e="exa --all --long --header --git --group-directories-first --color=auto"
+	alias e="exa --all --long --header --git --group --group-directories-first --color=auto"
 fi
 
 # bat display tab as 4 spaces by default, which is bad because it's a viewer instead of editor.
