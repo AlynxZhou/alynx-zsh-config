@@ -308,7 +308,7 @@ if [[ -f "/bin/git" ]]; then
 	git config --global alias.graph "log --graph --abbrev-commit --decorate --date=iso8601 --format=format:'%C(bold blue)%h%C(reset) %C(white)%s%C(reset) %C(dim white)<%ae>%C(reset) %C(bold green)(%ad)%C(reset) %C(auto)%d%C(reset)'"
 fi
 
-# Pacman alias.
+# Pacman helpers.
 if [[ -f "/bin/pacman" ]]; then
 	alias pmsync="pacman --sync"
 	alias pmremove="pacman --remove"
@@ -324,7 +324,7 @@ if [[ -f "/bin/pacman" ]]; then
 	alias pmss="pacman -Ss"
 fi
 
-# Systemd alias.
+# systemd helpers.
 if [[ -f "/bin/systemctl" ]]; then
 	# Let the pager away.
 	alias systemctl="systemctl --no-pager --full"
@@ -349,6 +349,30 @@ if [[ -f "/bin/systemctl" ]]; then
 	alias sjdb0="sudo journalctl --no-pager --full --boot=0"
 	alias jdb1="journalctl --no-pager --full --boot=-1"
 	alias sjdb1="journalctl --no-pager --full --boot=-1"
+fi
+
+# FFmpeg helpers.
+if [[ -f "/bin/ffmpeg" ]]; then
+	# Convert MOV (H264 + PCM_S16LE) to MP4 (H264 + AAC@256K), typically for
+	# DaVinci Resolve Studio outputs.
+	function mov2mp4() {
+		ffmpeg -i "${1}.mov" -c:v copy -c:a aac -b:a 256k "${1}.mp4"
+	}
+	# Convert MP4 (H264 + AAC@256K) to MOV (H264 + PCM_S16LE), typically for
+	# DaVinci Resolve Studio inputs, but not Sony XAVC S (H264 + PCM_S16LE
+	# in MP4).
+	function mp42mov() {
+		ffmpeg -i "${1}.mp4" -c:v copy -c:a pcm_s16le "${1}.mov"
+	}
+	# Convert FLAC to MP3 (256K), typically for sharing Ardour outputs.
+	function flac2mp3() {
+		ffmpeg -i "${1}.flac" -c:a mp3 -b:a 256k "${1}.mp3"
+	}
+	# Merge Bilibili App downloaded M4S files into MP4 (H264/H265 + AAC),
+	# you can use `"${PWD##*/}"` to get current dir name.
+	function m4s2mp4() {
+		ffmpeg -i video.m4s -i audio.m4s -c:v copy -c:a copy "${1}.mp4"
+	}
 fi
 
 # Syntax highlight.
