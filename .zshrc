@@ -285,7 +285,7 @@ if [[ -f "/bin/emacsclient" ]]; then
 fi
 
 if [[ -f "/bin/rsync" ]]; then
-	alias xsync="rsync -avihHAXKPS --delete"
+	alias xsync="rsync -avihHAXKPS --delete --info=progress2"
 fi
 
 if [[ -f "/bin/gcc" ]]; then
