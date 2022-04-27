@@ -285,7 +285,23 @@ if [[ -f "/bin/emacsclient" ]]; then
 fi
 
 if [[ -f "/bin/rsync" ]]; then
-	alias xsync="rsync -avihHAXKPS --delete --info=progress2"
+	function rsync-trim() {
+		local new_args=()
+		for i in "${@}"; do
+			case $i in
+				/)
+					i="/"
+				;;
+				*/)
+					# Remove last slash.
+					i="${i%/}"
+				;;
+			esac
+			new_args+=("${i}")
+		done
+		return rsync "${new_args[@]}"
+	}
+	alias xsync="rsync-trim -avihHAXKPS --delete --info=progress2"
 fi
 
 if [[ -f "/bin/gcc" ]]; then
