@@ -303,6 +303,11 @@ if [[ -f "/bin/patch" ]]; then
 	alias patchp="patch --no-backup-if-mismatch --forward --strip=1 -i"
 fi
 
+# Some programs does not use libc, so proxychains won't work on them (like Go), and they don't accept socks5 protocol in ENVs. I first use privoxy to turn socks5 proxy into http proxy, and use an alias to declare all related ENVs.
+if [[ -f "/bin/privoxy" ]]; then
+	alias proxyenv="http_proxy=\"http://127.0.0.1:8118\" https_proxy=\"http://127.0.0.1:8118\" ftp_proxy=\"http://127.0.0.1:8118\" rsync_proxy=\"http://127.0.0.1:8118\" no_proxy=\"localhost,127.0.0.1,localaddress,.localdomain\""
+fi
+
 # A beautiful git log.
 if [[ -f "/bin/git" ]]; then
 	git config --global alias.graph "log --graph --abbrev-commit --decorate --date=iso8601 --format=format:'%C(bold blue)%h%C(reset) %C(white)%s%C(reset) %C(dim white)<%ae>%C(reset) %C(bold green)(%ad)%C(reset) %C(auto)%d%C(reset)'"
