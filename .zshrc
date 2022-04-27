@@ -231,7 +231,7 @@ RPROMPT='[$(battery_status)$(os_status)%F{cyan}%D{%Y-%m-%d} %D{%H:%M:%S}%f]'
 
 # Terminal title.
 # Because terminal don't know what `%n@%m:%~` is, we need to use `print -P`, it will parse them then pass result to title.
-case $TERM in
+case "${TERM}" in
 	xterm*|rxvt*|(dt|k|E)term|termite|gnome*|alacritty)
 		function precmd() {
 			# vcs_info
@@ -288,7 +288,7 @@ if [[ -f "/bin/rsync" ]]; then
 	function rsync-trim() {
 		local new_args=()
 		for i in "${@}"; do
-			case $i in
+			case "${i}" in
 				/)
 					i="/"
 				;;
