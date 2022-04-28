@@ -299,7 +299,7 @@ if [[ -f "/bin/rsync" ]]; then
 			esac
 			new_args+=("${i}")
 		done
-		return rsync "${new_args[@]}"
+		rsync "${new_args[@]}"
 	}
 	alias xsync="rsync-trim -avihHAXKPS --delete --info=progress2"
 fi
