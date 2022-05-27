@@ -288,15 +288,11 @@ if [[ -f "/bin/rsync" ]]; then
 	function rsync-trim() {
 		local new_args=()
 		for i in "${@}"; do
-			case "${i}" in
-				/)
-					i="/"
-				;;
-				*/)
-					# Remove last slash.
-					i="${i%/}"
-				;;
-			esac
+			# We don't want to make root empty.
+			if [[ ${i} != "/" ]]; then
+				# Trim the last slash.
+				i="${i%/}"
+			fi
 			new_args+=("${i}")
 		done
 		rsync "${new_args[@]}"
@@ -377,17 +373,29 @@ if [[ -f "/bin/ffmpeg" ]]; then
 	# Convert MOV (H264 + PCM_S16LE) to MP4 (H264 + AAC@256K), typically for
 	# DaVinci Resolve Studio outputs.
 	function mov2mp4() {
-		ffmpeg -i "${1}.mov" -c:v copy -c:a aac -b:a 256k "${1}.mp4"
+		# We don't want the ext name because we change it.
+		for i in "${@}"; do
+			i="${i%.mov}"
+			ffmpeg -i "${i}.mov" -c:v copy -c:a aac -b:a 256k "${i}.mp4"
+		done
 	}
 	# Convert MP4 (H264 + AAC@256K) to MOV (H264 + PCM_S16LE), typically for
 	# DaVinci Resolve Studio inputs, but not Sony XAVC S (H264 + PCM_S16LE
 	# in MP4).
 	function mp42mov() {
-		ffmpeg -i "${1}.mp4" -c:v copy -c:a pcm_s16le "${1}.mov"
+		# We don't want the ext name because we change it.
+		for i in "${@}"; do
+			i="${i%.mp4}"
+			ffmpeg -i "${i}.mp4" -c:v copy -c:a pcm_s16le "${i}.mov"
+		done
 	}
 	# Convert FLAC to MP3 (256K), typically for sharing Ardour outputs.
 	function flac2mp3() {
-		ffmpeg -i "${1}.flac" -c:a mp3 -b:a 256k "${1}.mp3"
+		# We don't want the ext name because we change it.
+		for i in "${@}"; do
+			i="${i%.flac}"
+			ffmpeg -i "${i}.flac" -c:a mp3 -b:a 256k "${i}.mp3"
+		done
 	}
 	# Merge Bilibili App downloaded M4S files into MP4 (H264/H265 + AAC),
 	# you can use `"${PWD##*/}"` to get current dir name.
