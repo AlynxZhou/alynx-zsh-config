@@ -297,7 +297,13 @@ if [[ -f "/bin/rsync" ]]; then
 		done
 		rsync "${new_args[@]}"
 	}
-	alias xsync="rsync-trim -avihHAXKPS --delete --info=progress2"
+	# Don't use `--delete`, it will delete files that do not exist in source
+	# dir but exist in destination dir. Which is really bad for backup
+	# different sources into a single destination.
+	# `-P` means `--partial --progress`, `--partial` will keep incomplete
+	# files, and `--append` will make use of those files to complete.
+	# See <https://unix.stackexchange.com/questions/48298/can-rsync-resume-after-being-interrupted>.
+	alias xsync="rsync-trim -ahivAHKPSX --append --info=progress2"
 fi
 
 if [[ -f "/bin/gcc" ]]; then
