@@ -382,7 +382,7 @@ if [[ -f "/bin/ffmpeg" ]]; then
 		# We don't want the ext name because we change it.
 		for i in "${@}"; do
 			i="${i%.mov}"
-			ffmpeg -i "${i}.mov" -c:v copy -c:a aac -b:a 256k "${i}.mp4"
+			ffmpeg -i "${i}.mov" -c:v copy -c:a aac -b:a 256k -ar 44100 "${i}.mp4"
 		done
 	}
 	# Convert MP4 (H264 + AAC@256K) to MOV (H264 + PCM_S16LE), typically for
@@ -400,7 +400,7 @@ if [[ -f "/bin/ffmpeg" ]]; then
 		# We don't want the ext name because we change it.
 		for i in "${@}"; do
 			i="${i%.flac}"
-			ffmpeg -i "${i}.flac" -c:a mp3 -b:a 256k "${i}.mp3"
+			ffmpeg -i "${i}.flac" -c:a mp3 -b:a 256k  -ar 44100 "${i}.mp3"
 		done
 	}
 	# Merge Bilibili App downloaded M4S files into MP4 (H264/H265 + AAC),
