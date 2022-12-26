@@ -280,8 +280,8 @@ elif [[ -f "/bin/nvim" ]]; then
 	alias vi="nvim"
 fi
 if [[ -f "/bin/emacsclient" ]]; then
-	alias eg="emacsclient -c -a \"\""
-	alias ec="emacsclient -nw -c -a \"\""
+	# Always create new frame. I hardly use Emacs without GUI.
+	alias ec="emacsclient --create-frame --alternate-editor=\"\""
 fi
 
 if [[ -f "/bin/rsync" ]]; then
