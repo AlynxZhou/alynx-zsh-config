@@ -4,7 +4,7 @@
 
 # Note: If you use `~` in a string, it won't be treated as `${HOME}`, so use `${HOME}` in strings directly.
 
-# Fix bug of new tab always starts shell with ~.
+# Fix bug of new tab always starts shell with home.
 # https://bugs.launchpad.net/ubuntu-gnome/+bug/1193993
 if [[ -f  "/etc/profile.d/vte.sh" ]]; then
 	source /etc/profile.d/vte.sh
@@ -16,7 +16,7 @@ if [[ -f "${HOME}/.zprofile" ]]; then
 fi
 
 # Keymap.
-# `-e` Emacs `-v` Vi
+# `-e` is Emacs and `-v` is Vi.
 # Alynx loves Emacs keymap.
 bindkey -e
 # By default `Alt-h` is help.
@@ -159,12 +159,12 @@ zstyle ":completion:*:descriptions" format "%F{cyan}%B-- %d --%b%f"
 zstyle ":completion:*:messages" format "%F{purple}%B-- %d --%b%f"
 zstyle ":completion:*:warnings" format "%F{red}%B-- No Matches Found --%b%f"
 zstyle ":completion:*:corrections" format "%F{green}%B-- %d (errors: %e) --%b%f"
-# kill complete.
+# Kill complete.
 zstyle ":completion:*:*:kill:*:processes" list-colors "=(#b) #([0-9]#)*=0=01;31"
 zstyle ":completion:*:*:kill:*" menu yes select
 zstyle ":completion:*:*:*:*:processes" force-list always
 zstyle ":completion:*:processes" command "ps -au${USER}"
-# cd ~ complete sequence.
+# `cd ~` complete sequence.
 zstyle ":completion:*:-tilde-:*" group-order "named-directories" "path-directories" "users" "expand"
 
 # Restore tty status.
@@ -186,7 +186,8 @@ function os_status() {
 }
 
 # Battery.
-# Warning: For the prompt will only refresh by pressing <ENTER>, the battery showing maybe not right.
+# Warning: Because the prompt will only refresh by pressing Enter, the battery
+# percent maybe incorrect.
 function battery_status() {
 	if [[ -f "/sys/class/power_supply/BAT0/capacity" ]]; then
 		local BATTERY=$(command cat /sys/class/power_supply/BAT0/capacity 2> /dev/null)
@@ -223,7 +224,6 @@ function jobs_status() {
 }
 
 # Prompt.
-# Alynx prefers to use only left prompt.
 # Here is the LEFT PROMPT containing username `%n`, hostname `%m`, directory `%~`, git `$(git_status)`, jobs `$(jobs_status)`, result `${result_status}` and the `%#`.
 PROMPT='[%F{red}%n%f@%F{cyan}%m%f:%F{yellow}%~%f$(git_status)$(jobs_status)${result_status}] %# '
 # Here is the RIGHT PROMPT containing battery `$(battery_status)`, os `$(os_status)`, date `%D{%Y-%m-%d}` and time `%D{%H:%M:%S}`.
@@ -234,7 +234,6 @@ RPROMPT='[$(battery_status)$(os_status)%F{cyan}%D{%Y-%m-%d} %D{%H:%M:%S}%f]'
 case "${TERM}" in
 	xterm*|rxvt*|(dt|k|E)term|termite|gnome*|alacritty)
 		function precmd() {
-			# vcs_info
 			print -Pn "\e]0;%n@%M:%~\a"
 		}
 		function preexec() {
@@ -243,7 +242,6 @@ case "${TERM}" in
 	;;
 	screen*)
 		function precmd() {
-			# vcs_info
 			print -Pn "\e]83;title \"${1}\"\a"
 			print -Pn "\e]0;$TERM - (%L) %n@%M:%~\a"
 		}
@@ -281,7 +279,7 @@ elif [[ -f "/bin/nvim" ]]; then
 fi
 if [[ -f "/bin/emacsclient" ]]; then
 	# Always create new frame. I hardly use Emacs without GUI.
-	alias ec="emacsclient --create-frame --alternate-editor=\"\""
+	alias ec="emacsclient --create-frame --alternate-editor="
 fi
 
 if [[ -f "/bin/rsync" ]]; then
@@ -316,9 +314,8 @@ fi
 if [[ -f "/bin/diff" ]]; then
 	alias diffu="diff --unified --recursive --text --new-file --color"
 fi
-# Use `-i` here so we can append patch file name directly.
 if [[ -f "/bin/patch" ]]; then
-	alias patchp="patch --no-backup-if-mismatch --forward --strip=1 -i"
+	alias patchp="patch --no-backup-if-mismatch --forward --strip=1"
 fi
 
 # Some programs does not use libc, so proxychains won't work on them (like Go), and they don't accept socks5 protocol in ENVs. I first use privoxy to turn socks5 proxy into http proxy, and use an alias to declare all related ENVs.
