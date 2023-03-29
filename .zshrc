@@ -100,7 +100,9 @@ setopt prompt_subst
 # Allow comments in interactive mode.
 setopt interactive_comments
 # Treat them as a part of word.
-WORDCHARS="*?_-[]~=&;!#$%^(){}<>"
+#WORDCHARS="*?_-[]~=&;!#$%^(){}<>"
+# Interestingly, Emacs only treats those as words.
+WORDCHARS="$%"
 setopt auto_list
 setopt auto_menu
 # Disable selecting menu item while completing.
@@ -261,9 +263,11 @@ fi
 alias loadconfig="source ${HOME}/.zshrc"
 
 if [[ -f "/bin/ls" ]]; then
+	alias ls="ls --group-directories-first"
 	alias l="ls -l --all --human-readable --group-directories-first --color=auto"
 fi
 if [[ -f "/bin/exa" ]]; then
+	alias exa="exa --group-directories-first"
 	alias e="exa --all --long --header --git --group --group-directories-first --color=auto"
 fi
 
