@@ -305,7 +305,7 @@ if [[ -f "/bin/rsync" ]]; then
 	# `-P` means `--partial --progress`, `--partial` will keep incomplete
 	# files, and `--append` will make use of those files to complete.
 	# See <https://unix.stackexchange.com/questions/48298/can-rsync-resume-after-being-interrupted>.
-	alias xsync="rsync-trim -ahivAHKPSX --append --info=progress2"
+	alias xsync="rsync-trim -achivAHKPSX --append --info=progress2"
 fi
 
 if [[ -f "/bin/gcc" ]]; then
