@@ -20,8 +20,10 @@ fi
 # Alynx loves Emacs keymap.
 bindkey -e
 # By default `Alt-h` is help.
-# Alynx likes to use it to backward delete word.
-bindkey "\eh" backward-delete-word
+# Alynx likes to use it to backward kill word.
+# Use `backward-kill-word` instead of `backward-delete-word`, because it follows
+# `select-word-style`.
+bindkey "\eh" backward-kill-word
 # `Up` / `Down` for searching history.
 bindkey "\e[A" up-line-or-search
 bindkey "\e[B" down-line-or-search
@@ -117,6 +119,10 @@ setopt extended_glob
 setopt transient_rprompt
 # Display all options with status when call `setopt`.
 setopt ksh_option_print
+
+# Treat the whole quoted string as word, this is useful on handling long
+# arguments like URL.
+autoload -U select-word-style && select-word-style shell
 
 # Color.
 # Set it as environment variables.
@@ -305,7 +311,7 @@ if [[ -f "/bin/rsync" ]]; then
 	# `-P` means `--partial --progress`, `--partial` will keep incomplete
 	# files, and `--append` will make use of those files to complete.
 	# See <https://unix.stackexchange.com/questions/48298/can-rsync-resume-after-being-interrupted>.
-	alias xsync="rsync-trim -ahivAHKPSX --append --info=progress2"
+	alias xsync="rsync-trim -achivAHKPSX --append --info=progress2"
 fi
 
 if [[ -f "/bin/gcc" ]]; then
