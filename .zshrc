@@ -322,12 +322,21 @@ if [[ -f "/bin/patch" ]]; then
 	alias patchp="patch --no-backup-if-mismatch --forward --strip=1"
 fi
 
+if [[ -f "/bin/proxychains" ]]; then
+	alias pffmpeg="proxychains ffmpeg"
+fi
 # Some programs does not use libc, so proxychains won't work on them (like Go), and they don't accept socks5 protocol in ENVs. I first use privoxy to turn socks5 proxy into http proxy, and use an alias to declare all related ENVs.
 if [[ -f "/bin/privoxy" ]]; then
 	alias proxyenv="http_proxy=\"http://127.0.0.1:8118\" https_proxy=\"http://127.0.0.1:8118\" ftp_proxy=\"http://127.0.0.1:8118\" rsync_proxy=\"http://127.0.0.1:8118\" no_proxy=\"localhost,127.0.0.1,localaddress,.localdomain\""
 fi
 if [[ -f "/bin/v2raya" ]]; then
 	alias v2rayaenv="http_proxy=\"http://127.0.0.1:20171\" https_proxy=\"http://127.0.0.1:20171\" ftp_proxy=\"http://127.0.0.1:20171\" rsync_proxy=\"http://127.0.0.1:20171\" no_proxy=\"localhost,127.0.0.1,localaddress,.localdomain\""
+	alias vgit="v2rayaenv git"
+	alias vgitf="vgit fetch"
+	alias vgitfu="vgitf upstream"
+	alias vgitpl="vgit pull"
+	alias vgitps="vgit push"
+	alias vffmpeg="v2rayaenv ffmpeg"
 fi
 
 # A beautiful git log.
