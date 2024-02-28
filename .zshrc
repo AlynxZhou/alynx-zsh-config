@@ -277,7 +277,8 @@ if [[ -f "/bin/exa" ]]; then
 	alias e="exa --all --long --header --git --group --group-directories-first --color=auto"
 fi
 
-# bat display tab as 4 spaces by default, which is bad because it's a viewer instead of editor.
+# `bat` display tab as 4 spaces by default, which is bad because it's a viewer
+# instead of an editor.
 if [[ -f "/bin/bat" ]]; then
 	alias bat="bat --tabs=0"
 fi
@@ -306,12 +307,12 @@ if [[ -f "/bin/rsync" ]]; then
 		rsync "${new_args[@]}"
 	}
 	# Don't use `--delete`, it will delete files that do not exist in source
-	# dir but exist in destination dir. Which is really bad for backup
+	# dir but exist in destination dir. Which is really bad for merge
 	# different sources into a single destination.
 	# `-P` means `--partial --progress`, `--partial` will keep incomplete
-	# files, and `--append` will make use of those files to complete.
-	# See <https://unix.stackexchange.com/questions/48298/can-rsync-resume-after-being-interrupted>.
-	alias xsync="rsync-trim -achivAHKPSX --append --info=progress2"
+	# files and will continue them next time.
+	# `--append` is not for `--partial` and could be dangerous!
+	alias xsync="rsync-trim -achivAHKPSX --info=progress2"
 fi
 
 if [[ -f "/bin/gcc" ]]; then
