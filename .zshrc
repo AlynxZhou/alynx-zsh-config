@@ -312,7 +312,8 @@ if [[ -f "/bin/rsync" ]]; then
 	# `-P` means `--partial --progress`, `--partial` will keep incomplete
 	# files and will continue them next time.
 	# `--append` is not for `--partial` and could be dangerous!
-	alias xsync="rsync-trim -achivAHKPSX --info=progress2"
+	alias xsync="rsync-trim -ahivAHKPSX --info=progress2"
+	alias csync="rsync-trim -achivAHKPSX --info=progress2"
 fi
 
 if [[ -f "/bin/gcc" ]]; then
