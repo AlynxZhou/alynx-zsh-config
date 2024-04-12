@@ -190,7 +190,7 @@ local result_status=%(?::":%F{red}%?%f")
 # OS.
 function os_status() {
 	if [[ -n ${SSH_CONNECTION} ]]; then
-		print -n "%F{blue}(ssh)%f%F{yellow}$(command uname)%f:"
+		print -n "%F{yellow}$(command uname)%f%F{blue}(ssh)%f:"
 	else
 		print -n "%F{yellow}$(command uname)%f:"
 	fi
