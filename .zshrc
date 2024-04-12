@@ -2,7 +2,8 @@
 
 # Alynx Zhou <alynx.zhou@gmail.com> (https://alynx.one/)
 
-# Note: If you use `~` in a string, it won't be treated as `${HOME}`, so use `${HOME}` in strings directly.
+# Note: If you use `~` in a string, it won't be treated as `${HOME}`, so use
+# `${HOME}` in strings directly.
 
 # Fix bug of new tab always starts shell with home.
 # https://bugs.launchpad.net/ubuntu-gnome/+bug/1193993
@@ -178,12 +179,15 @@ zstyle ":completion:*:-tilde-:*" group-order "named-directories" "path-directori
 # Restore tty status.
 # ttyctl -f
 
-# Prompt settings.
+# Prompt functions.
+# We don't pass `-P` to `print` for prompt functions, we generate a string with
+# prompt escaping sequences and let zsh handle them.
+
 # Last command result.
 # Zero prints nothing. Non-zero prints red number.
 local result_status=%(?::":%F{red}%?%f")
 
-# OS detection.
+# OS.
 function os_status() {
 	if [[ -n ${SSH_CONNECTION} ]]; then
 		print -n "%F{blue}(ssh)%f%F{yellow}$(command uname)%f:"
@@ -195,7 +199,7 @@ function os_status() {
 
 # Battery.
 # Warning: Because the prompt will only refresh by pressing Enter, the battery
-# percent maybe incorrect.
+# percent maybe not precious.
 function battery_status() {
 	if [[ -f "/sys/class/power_supply/BAT0/capacity" ]]; then
 		local BATTERY=$(command cat /sys/class/power_supply/BAT0/capacity 2> /dev/null)
@@ -232,31 +236,60 @@ function jobs_status() {
 }
 
 # Prompt.
-# Here is the LEFT PROMPT containing username `%n`, hostname `%m`, directory `%~`, git `$(git_status)`, jobs `$(jobs_status)`, result `${result_status}` and the `%#`.
+# Single quote is required to do variable expansion, double quote won't work.
+# Here is the LEFT PROMPT containing username `%n`, hostname `%m`, directory
+# `%~`, git `$(git_status)`, jobs `$(jobs_status)`, result `${result_status}`
+# and the `%#`.
 PROMPT='[%F{red}%n%f@%F{cyan}%m%f:%F{yellow}%~%f$(git_status)$(jobs_status)${result_status}] %# '
-# Here is the RIGHT PROMPT containing battery `$(battery_status)`, os `$(os_status)`, date `%D{%Y-%m-%d}` and time `%D{%H:%M:%S}`.
+# Here is the RIGHT PROMPT containing battery `$(battery_status)`, OS
+# `$(os_status)`, date `%D{%Y-%m-%d}` and time `%D{%H:%M:%S}`.
 RPROMPT='[$(battery_status)$(os_status)%F{cyan}%D{%Y-%m-%d} %D{%H:%M:%S}%f]'
 
+# Command hooks.
+typeset -a precmd_functions
+typeset -a preexec_functions
+
+# Cursor.
+# Some programs like Neovim don't restore cursor shape after exiting.
+function reset_cursor() {
+	# Set cursor style (DECSCUSR), VT520:
+	#
+	# - 0: Blinking block.
+	# - 1: Blinking block (default).
+	# - 2: Steady block.
+	# - 3: Blinking underline.
+	# - 4: Steady underline.
+	# - 5: Blinking bar, xterm.
+	# - 6: Steady bar, xterm.
+	print -n "\e[4 q"
+}
+precmd_functions+=(reset_cursor)
+
 # Terminal title.
-# Because terminal don't know what `%n@%m:%~` is, we need to use `print -P`, it will parse them then pass result to title.
+# Because terminal don't know what `%n@%m:%~` is, we need to use `print -P`, it
+# will do prompt expansion.
 case "${TERM}" in
 	xterm*|rxvt*|(dt|k|E)term|termite|gnome*|alacritty)
-		function precmd() {
+		function precmd_prompt() {
 			print -Pn "\e]0;%n@%M:%~\a"
 		}
-		function preexec() {
+		function preexec_command() {
 			print -Pn "\e]0;${1}\a"
 		}
+		precmd_functions+=(precmd_prompt)
+		preexec_functions+=(preexec_command)
 	;;
 	screen*)
-		function precmd() {
+		function precmd_prompt() {
 			print -Pn "\e]83;title \"${1}\"\a"
-			print -Pn "\e]0;$TERM - (%L) %n@%M:%~\a"
+			print -Pn "\e]0;${TERM} - (%L) %n@%M:%~\a"
 		}
-		function preexec() {
+		function preexec_command() {
 			print -Pn "\e]83;title \"${1}\"\a"
-			print -Pn "\e]0;$TERM - (%L) %n@%M:%~\a"
+			print -Pn "\e]0;${TERM} - (%L) %n@%M:%~\a"
 		}
+		precmd_functions+=(precmd_prompt)
+		preexec_functions+=(preexec_command)
 	;;
 esac
 
@@ -333,7 +366,9 @@ fi
 if [[ -f "/bin/proxychains" ]]; then
 	alias pffmpeg="proxychains ffmpeg"
 fi
-# Some programs does not use libc, so proxychains won't work on them (like Go), and they don't accept socks5 protocol in ENVs. I first use privoxy to turn socks5 proxy into http proxy, and use an alias to declare all related ENVs.
+# Some programs does not use libc, so proxychains won't work on them (like Go),
+# and they don't accept socks5 protocol in ENVs. I first use privoxy to turn
+#socks5 proxy into http proxy, and use an alias to declare all related ENVs.
 if [[ -f "/bin/privoxy" ]]; then
 	alias proxyenv="http_proxy=\"http://127.0.0.1:8118\" https_proxy=\"http://127.0.0.1:8118\" ftp_proxy=\"http://127.0.0.1:8118\" rsync_proxy=\"http://127.0.0.1:8118\" no_proxy=\"localhost,127.0.0.1,localaddress,.localdomain\""
 fi
