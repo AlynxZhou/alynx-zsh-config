@@ -4,15 +4,20 @@ alynx-zsh-config
 Alynx's zsh configuration files.
 --------------------------------
 
-If you get any ideas to improve it, please send PR or issue! Thanks!
+If you have any ideas to improve it, please send PR or issue! Thanks!
 
 # Usage
 
 Just download the `.zshrc` file and put it into your home directory.
 
-# Description
+Or if you want to keep it updated with Git, do this under you home directory:
 
-Some features:
+```shell
+$ git clone https://github.com/AlynxZhou/alynx-zsh-config.git
+$ ln -s alynx-zsh-config/.zshrc ~/.zshrc
+```
+
+# Features
 
 ## Single file configuration.
 
@@ -24,7 +29,7 @@ I never use powerline because it is always hard to align and hard to copy.
 
 ## Powerful zsh built-in completion.
 
-Those configuration is from internet and I collected them.
+Those configuration are from Internet and I collected them.
 
 ## Clear dotfiles chain loading.
 
@@ -53,4 +58,3 @@ Alynx suggests you to use systemd to load your user environment variables, just 
 # License
 
 Apache-2.0
-
