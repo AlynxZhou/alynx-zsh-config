@@ -301,32 +301,32 @@ else
 fi
 alias loadconfig="source ${HOME}/.zshrc"
 
-if [[ -f "/bin/ls" ]]; then
+if command -v "ls" &> /dev/null; then
 	alias ls="ls --group-directories-first"
 	alias l="ls -l --all --human-readable --group-directories-first --color=auto"
 fi
-if [[ -f "/bin/exa" ]]; then
+if command -v "exa" &> /dev/null; then
 	alias exa="exa --group-directories-first"
 	alias e="exa --all --long --header --git --group --group-directories-first --color=auto"
 fi
 
 # `bat` display tab as 4 spaces by default, which is bad because it's a viewer
 # instead of an editor.
-if [[ -f "/bin/bat" ]]; then
+if command -v "bat" &> /dev/null; then
 	alias bat="bat --tabs=0"
 fi
 
-if [[ -f "/bin/vim" ]]; then
+if command -v "vim" &> /dev/null; then
 	alias vi="vim"
-elif [[ -f "/bin/nvim" ]]; then
+elif command -v "nvim" &> /dev/null; then
 	alias vi="nvim"
 fi
-if [[ -f "/bin/emacsclient" ]]; then
+if command -v "emacsclient" &> /dev/null; then
 	# Always create new frame. I hardly use Emacs without GUI.
 	alias ec="emacsclient --create-frame --alternate-editor="
 fi
 
-if [[ -f "/bin/rsync" ]]; then
+if command -v "rsync" &> /dev/null; then
 	function rsync-trim() {
 		local new_args=()
 		for i in "${@}"; do
@@ -349,30 +349,30 @@ if [[ -f "/bin/rsync" ]]; then
 	alias csync="rsync-trim -achivAHKPSX --info=progress2"
 fi
 
-if [[ -f "/bin/gcc" ]]; then
+if command -v "gcc" &> /dev/null; then
 	alias gcc11="gcc -std=c11"
 fi
-if [[ -f "/bin/clang" ]]; then
+if command -v "clang" &> /dev/null; then
 	alias clang11="clang -std=c11"
 fi
 
-if [[ -f "/bin/diff" ]]; then
+if command -v "diff" &> /dev/null; then
 	alias diffu="diff --unified --recursive --text --new-file --color"
 fi
-if [[ -f "/bin/patch" ]]; then
+if command -v "patch" &> /dev/null; then
 	alias patchp="patch --no-backup-if-mismatch --forward --strip=1"
 fi
 
-if [[ -f "/bin/proxychains" ]]; then
+if command -v "proxychains" &> /dev/null; then
 	alias pffmpeg="proxychains ffmpeg"
 fi
 # Some programs does not use libc, so proxychains won't work on them (like Go),
 # and they don't accept socks5 protocol in ENVs. I first use privoxy to turn
 #socks5 proxy into http proxy, and use an alias to declare all related ENVs.
-if [[ -f "/bin/privoxy" ]]; then
+if command -v "privoxy" &> /dev/null; then
 	alias proxyenv="http_proxy=\"http://127.0.0.1:8118\" https_proxy=\"http://127.0.0.1:8118\" ftp_proxy=\"http://127.0.0.1:8118\" rsync_proxy=\"http://127.0.0.1:8118\" no_proxy=\"localhost,127.0.0.1,localaddress,.localdomain\""
 fi
-if [[ -f "/bin/v2raya" ]]; then
+if command -v "v2raya" &> /dev/null; then
 	alias v2rayaenv="http_proxy=\"http://127.0.0.1:20171\" https_proxy=\"http://127.0.0.1:20171\" ftp_proxy=\"http://127.0.0.1:20171\" rsync_proxy=\"http://127.0.0.1:20171\" no_proxy=\"localhost,127.0.0.1,localaddress,.localdomain\""
 	alias vgit="v2rayaenv git"
 	alias vgitf="vgit fetch"
@@ -383,12 +383,12 @@ if [[ -f "/bin/v2raya" ]]; then
 fi
 
 # A beautiful git log.
-if [[ -f "/bin/git" ]]; then
+if command -v "git" &> /dev/null; then
 	git config --global alias.graph "log --graph --abbrev-commit --decorate --date=iso8601 --format=format:'%C(bold blue)%h%C(reset) %C(white)%s%C(reset) %C(dim white)<%ae>%C(reset) %C(bold green)(%ad)%C(reset) %C(auto)%d%C(reset)'"
 fi
 
 # Pacman helpers.
-if [[ -f "/bin/pacman" ]]; then
+if command -v "pacman" &> /dev/null; then
 	alias pmsync="pacman --sync"
 	alias pmremove="pacman --remove"
 	alias pmquery="pacman --query"
@@ -404,7 +404,7 @@ if [[ -f "/bin/pacman" ]]; then
 fi
 
 # systemd helpers.
-if [[ -f "/bin/systemctl" ]]; then
+if command -v "systemctl" &> /dev/null; then
 	# Let the pager away.
 	alias systemctl="systemctl --no-pager --full"
 	alias journalctl="journalctl --no-pager --full"
@@ -431,7 +431,7 @@ if [[ -f "/bin/systemctl" ]]; then
 fi
 
 # FFmpeg helpers.
-if [[ -f "/bin/ffmpeg" ]]; then
+if command -v "ffmpeg" &> /dev/null; then
 	# Convert MOV (H264 + PCM_S16LE) to MP4 (H264 + AAC@256K), typically for
 	# DaVinci Resolve Studio outputs.
 	function mov2mp4() {
