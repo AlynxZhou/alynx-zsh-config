@@ -14,7 +14,7 @@ Or if you want to keep it updated with Git, do this under you home directory:
 
 ```shell
 $ git clone https://github.com/AlynxZhou/alynx-zsh-config.git
-$ ln -s alynx-zsh-config/.zshrc ~/.zshrc
+$ ln -s YOUR_FULL_CLONE_PATH/.zshrc ~/.zshrc
 ```
 
 # Features
@@ -39,7 +39,7 @@ Load sequence:
 	
 ### `.zprofile`
 
-Environment variable that will be used by zsh only (Alynx does not use this in fact).
+This will be loaded at first and you can set environment variables that will be used by zsh only. For example, PATH of Homebrew.
 
 ### `.zshrc`
 
@@ -47,7 +47,7 @@ Main configuration file.
 
 ### `.zcustom`
 
-This will be load at last and you can put your own configuration here, for example, if your autosuggestion puts in another dir you can execute it here.
+This will be load at last and you can put your own configuration here. For example, if your autosuggestion plugin is in another dir you can execute it here.
 
 ## About `.profile`
 
