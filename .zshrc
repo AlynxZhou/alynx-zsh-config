@@ -329,15 +329,15 @@ fi
 if command -v "rsync" &> /dev/null; then
 	function rsync-trim() {
 		local new_args=()
-		for i in "${@}"; do
+		for i in ${@}; do
 			# We don't want to make root empty.
-			if [[ ${i} != "/" ]]; then
+			if [[ "${i}" != "/" ]]; then
 				# Trim the last slash.
 				i="${i%/}"
 			fi
 			new_args+=("${i}")
 		done
-		rsync "${new_args[@]}"
+		rsync ${new_args[@]}
 	}
 	# Don't use `--delete`, it will delete files that do not exist in source
 	# dir but exist in destination dir. Which is really bad for merge
@@ -436,7 +436,7 @@ if command -v "ffmpeg" &> /dev/null; then
 	# DaVinci Resolve Studio outputs.
 	function mov2mp4() {
 		# We don't want the ext name because we change it.
-		for i in "${@}"; do
+		for i in ${@}; do
 			i="${i%.mov}"
 			ffmpeg -i "${i}.mov" -c:v copy -c:a aac -b:a 256k -ar 44100 "${i}.mp4"
 		done
@@ -446,7 +446,7 @@ if command -v "ffmpeg" &> /dev/null; then
 	# in MP4).
 	function mp42mov() {
 		# We don't want the ext name because we change it.
-		for i in "${@}"; do
+		for i in ${@}; do
 			i="${i%.mp4}"
 			ffmpeg -i "${i}.mp4" -c:v copy -c:a pcm_s16le "${i}.mov"
 		done
@@ -454,7 +454,7 @@ if command -v "ffmpeg" &> /dev/null; then
 	# Convert FLAC to MP3 (256K), typically for sharing Ardour outputs.
 	function flac2mp3() {
 		# We don't want the ext name because we change it.
-		for i in "${@}"; do
+		for i in ${@}; do
 			i="${i%.flac}"
 			ffmpeg -i "${i}.flac" -c:a mp3 -b:a 256k  -ar 44100 "${i}.mp3"
 		done
