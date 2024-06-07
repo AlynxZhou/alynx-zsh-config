@@ -342,11 +342,17 @@ if command -v "rsync" &> /dev/null; then
 	# Don't use `--delete`, it will delete files that do not exist in source
 	# dir but exist in destination dir. Which is really bad for merge
 	# different sources into a single destination.
+	#
 	# `-P` means `--partial --progress`, `--partial` will keep incomplete
 	# files and will continue them next time.
+	#
 	# `--append` is not for `--partial` and could be dangerous!
+	#
+	# When syncing to Samba share, do not keep xattrs (`-X`).
 	alias xsync="rsync-trim -ahivAHKPSX --info=progress2"
+	alias xsyncx="rsync-trim -ahivAHKPS --info=progress2"
 	alias csync="rsync-trim -achivAHKPSX --info=progress2"
+	alias csyncx="rsync-trim -achivAHKPS --info=progress2"
 fi
 
 if command -v "gcc" &> /dev/null; then
