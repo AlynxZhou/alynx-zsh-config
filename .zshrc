@@ -131,6 +131,10 @@ export ZLSCOLORS=${LS_COLORS}
 autoload -U colors && colors
 
 # Autocomplete.
+# Load Homebrew completions.
+if command -v "brew" &> /dev/null; then
+	FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+fi
 zstyle :compinstall filename "${HOME}/.zshrc"
 autoload -Uz compinit && compinit
 
