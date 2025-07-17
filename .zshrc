@@ -347,16 +347,19 @@ if command -v "rsync" &> /dev/null; then
 	# dir but exist in destination dir. Which is really bad for merge
 	# different sources into a single destination.
 	#
+	# Don't use `--sparse`, especially on a 10GbE link, it will decrase
+	# speed to half.
+	#
+	# Don't use `--append`, it's not for `--partial` and could be dangerous!
+	#
 	# `-P` means `--partial --progress`, `--partial` will keep incomplete
 	# files and will continue them next time.
 	#
-	# `--append` is not for `--partial` and could be dangerous!
-	#
 	# When syncing to Samba share, do not keep xattrs (`-X`).
-	alias xsync="rsync-trim -ahivAHKPSX --info=progress2"
-	alias xsyncx="rsync-trim -ahivAHKPS --info=progress2"
-	alias csync="rsync-trim -achivAHKPSX --info=progress2"
-	alias csyncx="rsync-trim -achivAHKPS --info=progress2"
+	alias xsync="rsync-trim -ahivAHKPX --info=progress2"
+	alias xsyncx="rsync-trim -ahivAHKP --info=progress2"
+	alias csync="rsync-trim -achivAHKPX --info=progress2"
+	alias csyncx="rsync-trim -achivAHKP --info=progress2"
 fi
 
 if command -v "gcc" &> /dev/null; then
