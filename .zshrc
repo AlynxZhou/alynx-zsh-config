@@ -320,6 +320,10 @@ if command -v "bat" &> /dev/null; then
 	alias bat="bat --tabs=0"
 fi
 
+if command -v "bat" &> /dev/null; then
+	alias headn30="head --lines=30"
+fi
+
 if command -v "vim" &> /dev/null; then
 	alias vi="vim"
 elif command -v "nvim" &> /dev/null; then
