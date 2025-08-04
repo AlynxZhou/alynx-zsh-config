@@ -439,7 +439,7 @@ fi
 if command -v "systemctl" &> /dev/null; then
 	# Let the pager away.
 	alias systemctl="systemctl --no-pager --full"
-	alias journalctl="journalctl --no-pager --full"
+	alias journalctl="journalctl --no-pager --full --output=short-iso"
 	alias sdenable="systemctl enable"
 	alias ssdenable="sudo systemctl enable"
 	alias sdenablenow="systemctl enable --now"
@@ -460,6 +460,8 @@ if command -v "systemctl" &> /dev/null; then
 	alias sjdb0="sudo journalctl --no-pager --full --boot=0"
 	alias jdb1="journalctl --no-pager --full --boot=-1"
 	alias sjdb1="journalctl --no-pager --full --boot=-1"
+	alias jeu="journalctl -eu"
+	alias sjeu="sudo journalctl -eu"
 fi
 
 # FFmpeg helpers.
