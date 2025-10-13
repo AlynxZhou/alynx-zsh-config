@@ -127,8 +127,14 @@ autoload -U select-word-style && select-word-style shell
 
 # Color.
 # Set it as environment variables.
-export ZLSCOLORS=${LS_COLORS}
+if command -v "dircolors" &> /dev/null; then
+	eval $(dircolors -b)
+fi
 autoload -U colors && colors
+# Make Emacs use 24-bit color in SSH.
+if [[ -n ${SSH_CONNECTION} ]]; then
+	export COLORTERM="truecolor"
+fi
 
 # Autocomplete.
 # Load Homebrew completions.
