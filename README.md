@@ -4,6 +4,10 @@ alynx-zsh-config
 Alynx's zsh configuration files.
 --------------------------------
 
+# Deprecated
+
+Use my zsh configurations in [alynx-dotfiles](https://github.com/AlynxZhou/alynx-dotfiles/).
+
 If you have any ideas to improve it, please send PR or issue! Thanks!
 
 # Usage
